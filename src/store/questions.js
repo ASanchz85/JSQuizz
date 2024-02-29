@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
-export const useQuestionsStore = create((set, get) => {
+export const useQuestionsStore = create(persist((set, get) => {
   return {
     questions: [],
     currentQuestions: 0,
@@ -44,6 +45,12 @@ export const useQuestionsStore = create((set, get) => {
       if (currentQuestions >= 0) {
         set({ currentQuestions: nextQuestion })
       }
+    },
+
+    reset: () => {
+      set({ questions: [], currentQuestions: 0 })
     }
   }
-})
+}, {
+  name: 'questions-storage'
+}))
